@@ -5,6 +5,9 @@ import { fetchPost, updatePost } from '../../actions/post_actions';
 
 
 class EditPostForm extends React.Component {
+  componentDidMount() {
+    fetchPost(this.props.match.params.postId);
+  }
 
   render() {
     const { action, formType, post } = this.props;
@@ -16,3 +19,13 @@ class EditPostForm extends React.Component {
     );
   }
 }
+
+const msp = (state, ownProps) => ({
+  post: state.posts[ownProps.match.params.postId]
+});
+
+const mdp = dispatch => ({
+  action: post => dispatch(updatePost(post))
+});
+
+export default connect(msp, mdp)(EditPostForm);
